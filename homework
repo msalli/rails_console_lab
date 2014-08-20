@@ -1,0 +1,90 @@
+Tasks to create
+
+1. Using the new/save syntax, create a student, first and last name and an age
+ >> stu1 = Student.new
+ >> stu1.first_name = "Charlie"
+ >> stu1.last_name = "Brown"
+ >> stu1.age = 7
+ >> stu1.save
+2. Save the student to the database
+>> stu1.save
+
+3. Using the find/set/save syntax update the student's first name to taco
+>> stu1 = Student.find_by_first_name("Charlie")
+>> stu1.first_name = "Taco"
+>> stu1.save
+
+4. Delete the student (where first_name is taco)
+>>stu1 = Student.find(1)
+>> stu1.destroy
+
+5. Validate that every Student's last name is unique
+>> go to app/models/student.rb
+>> validates_uniqueness_of :last_name
+
+in rails c
+>>reload!
+
+6. Validate that every Student has a first and last name that is longer than 4 characters
+>> validates_length_of :firstname, :minimum => 4
+>> validates_length_of :last_name, :minimum => 4
+
+7. Validate that every first and last name cannot be empty
+>> validates_presence_of :first_name, :last_name
+
+8. Combine all of these individual validations into one validation (using validate and a hash)
+>> validates :first_name, :presence => true,
+                                            :length => {:minimum => 4}
+   validates :last_name, :presence => true,
+                                            :length => {:minimum => 4},
+                                            :uniqueness => true
+  end
+
+9. Using the create syntax create a student named John Doe who is 33 years old
+>> stu10 = Student.create(:first_name => "John", :last_name => "Doe", :age => 32)
+
+10. Show if this new student entry is valid
+>>NOT VALID
+
+11. Show the number of errors for this student instance
+>> stu10.errors.count
+ => 1
+
+12. In one command, Change John Doe's name to Jonathan Doesmith
+>> stu10.update_attributes(:first_name => "Johnathan", :last_name => "Doesmith")
+>> stu10.save
+
+13. Clear the errors array
+>>stu10.errors.clear
+
+14. Save Jonathan Doesmith
+>> stu10.save
+
+15. Find all of the Students
+>> Student.all
+
+16. Find the student with an ID of 128 and if it does not exist, make sure it returns nil and not an error
+>> Student.find_by_id(128)
+
+17. Find the first student in the table
+>> Student.first
+
+18. Find the last student in the table
+>> Student.last
+
+19. Find the student with the last name of Doesmith
+>> Student.find_by_last_name("Doesmith")
+
+
+20. Find all of the students and limit the search to 5 students, starting with the 2nd student and finally, order the students in alphabetical order
+>> Student.all.limit(5).offset(1).order(first_name: :asc)
+
+21. Delete Jonathan Doesmith
+>> Student.find_by_first_name("Johnathan").destroy
+
+Bonus
+
+1. Use the validates_format_of and regex to only validate names that consist of letters (no numbers or symbols) and start with a capital letter
+
+
+2. Write a custom validation to ensure that no one named Delmer Reed, Tim Licata, Anil Bridgpal or Elie Schoppik is included in the students table
